@@ -1,3 +1,4 @@
+import pytz
 import time
 import json
 import functools
@@ -58,7 +59,7 @@ class AdminAutoSaveMixin(object):
         try:
             object_id = int(unquote(object_id))
         except ValueError:
-            return HttpResponse(u"", status=404, mimetype='application/x-javascript')
+            return HttpResponse(u"", status=404, content_type='application/x-javascript')
 
         obj = None
         updated = None
@@ -101,7 +102,9 @@ class AdminAutoSaveMixin(object):
                 updated = getattr(obj, self.autosave_last_modified_field, None)
                 # Make sure date modified time doesn't predate Unix-time.
                 # I'm pretty confident they didn't do any Django autosaving in 1969.
-                updated = max(updated, datetime(year=1970, month=1, day=1))
+                epoch = pytz.timezone("UTC").localize(datetime(year=1970,
+                                                               month=1, day=1))
+                updated = max(updated, epoch)
 
         if obj and not self.has_change_permission(request, obj):
             raise PermissionDenied
@@ -127,7 +130,7 @@ class AdminAutoSaveMixin(object):
                 return config;
             }})();
         """).strip().format(config_data=json.dumps(js_vars, indent=4, sort_keys=True))
-        return HttpResponse(response_js, mimetype='application/x-javascript')
+        return HttpResponse(response_js, content_type='application/x-javascript')
 
     def get_urls(self):
         """Adds a last-modified checker to the admin urls."""

@@ -236,12 +236,12 @@ var DjangoAutosave = (window.DjangoAutosave) ? DjangoAutosave : {};
 
     DjangoAutosave.suggestRevert = function(last_autosaved) {
         var msg = [
-            "It looks like you have a more recent version autosaved at ",
+            'It looks like you have a more recent version autosaved at ',
             Date(last_autosaved).toLocaleString(),
             '. <a href="#revert-to-autosaved">Revert to that</a> or ',
             ' <a href="#ignore-autosaved">continue with this version</a>?'
         ].join('');
-        var $alert = $('<li id="autosave-message" class="info"/>').hide().html(msg);
+        var $alert = $('<div id="autosave-message" class="alert alert-danger"/>').hide().html(msg);
 
         // 'grp-' prefix to support both Admin and Grapelli 2.4
         var $messagelist = $('.messagelist, .grp-messagelist');
