@@ -113,6 +113,7 @@ class AdminAutoSaveMixin(object):
 
         js_vars = {
             'autosave_url': autosave_url,
+            'form_id': "#%s_form"  % obj.__class__.__name__.lower(),
             'is_add_view': not(object_id),
             'server_time_epoch': time.mktime(datetime.now().timetuple()),
             'last_updated_epoch': time.mktime(updated.timetuple()) if updated else None,

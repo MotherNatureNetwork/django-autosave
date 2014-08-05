@@ -68,7 +68,7 @@ var DjangoAutosave = (window.DjangoAutosave) ? DjangoAutosave : {};
         e.preventDefault();
 
         // Generate new form data
-        var $form = $('form');
+        var $form = $(DjangoAutosave.config.form_id);
         var data = DjangoAutosave.retrieve();
 
         // Disable the existing form
@@ -255,7 +255,7 @@ var DjangoAutosave = (window.DjangoAutosave) ? DjangoAutosave : {};
     };
 
     DjangoAutosave.captureForm = function() {
-        var $form = $('form');
+        var $form = $(DjangoAutosave.config.form_id);
         var $fields = $form.find(':input:not([name="csrfmiddlewaretoken"])');
         var field_list = [];
         var $field, name;
